@@ -8,7 +8,8 @@ import { updateCalendarProperties } from "../util/file";
 
 export const createNewCalendarEntry = async (
   notion: Client,
-  calendarDb: string
+  calendarDb: string,
+  name: string
 ) => {
   const response = await notion.pages.create({
     parent: {
@@ -19,7 +20,7 @@ export const createNewCalendarEntry = async (
         title: [
           {
             text: {
-              content: "7k run",
+              content: name,
             },
           },
         ],
