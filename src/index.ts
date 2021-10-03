@@ -1,54 +1,24 @@
+#! /usr/bin/env node --experimental-specifier-resolution=node
+
+import {
+  createNewCalendarEntry,
+  getCalendarInformation,
+} from "./dbUtil/calendar";
+
 import { Client } from "@notionhq/client";
 import dotenv from "dotenv";
+import { hideBin } from "yargs/helpers";
+import yargs from "yargs";
 
-dotenv.config();
+yargs(hideBin(process.argv))
+  .command("event", "create a calendar event", () => {
+    console.log("creating an event");
+  })
+  .help().argv;
 
-const calendarDb = process.env.CALENDAR_DB!;
-const notion = new Client({
-  auth: process.env.NOTION_TOKEN,
-});
+// const calendarDb = process.env.CALENDAR_DB!;
+// const notion = new Client({
+//   auth: process.env.NOTION_TOKEN,
+// });
 
-// const options = yargs
-//   .usage("Usage: -c <name>")
-//   .option("n", {
-//     alias: "name",
-//     describe: "Your name",
-//     type: "string",
-//     demandOption: true,
-//   })
-//   .option("s", {
-//     alias: "search",
-//     describe: "Search term",
-//     type: "string",
-//   }).argv;
-
-const createNewCalendarEntry = async () => {
-  const response = await notion.pages.create({
-    parent: {
-      database_id: calendarDb,
-    },
-    properties: {
-      Name: {
-        title: [
-          {
-            text: {
-              content: "Test Entry",
-            },
-          },
-        ],
-      },
-      Tags: {
-        multi_select: [
-          {
-            name: "Reminder",
-          },
-        ],
-      },
-      Date: {
-        date: { start: new Date().toISOString() },
-      },
-    },
-  });
-};
-
-await createNewCalendarEntry();
+// getCalendarInformation(notion, calendarDb);

@@ -2,17 +2,21 @@
   "name": "notion",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "bin/index.js",
   "type": "module",
   "scripts": {
-    "build": "tsc",
-    "start": "node --loader ts-node/esm src/index.ts",
+    "build": "tsc && npm i -g ./",
+    "start": "npm run build && node --experimental-specifier-resolution=node bin/index.js ",
     "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "bin": {
+    "notion": "./bin/index.js"
   },
   "author": "",
   "license": "ISC",
   "dependencies": {
     "@notionhq/client": "^0.4.0",
+    "@types/yargs": "^17.0.3",
     "dotenv": "^10.0.0",
     "yargs": "^17.2.1"
   },
