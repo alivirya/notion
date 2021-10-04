@@ -1,5 +1,6 @@
 #! /usr/bin/env node --experimental-specifier-resolution=node
 
+import { TextColors, changeTextColor } from "./util/cli";
 import {
   createNewCalendarEntry,
   getCalendarInformation,
@@ -17,6 +18,7 @@ const rl = readline.createInterface({
   output: process.stdout,
 });
 
+// TODO: this doesn't seem to work so i need to fix this
 const question = util.promisify(rl.question).bind(rl);
 
 dotenv.config();
@@ -26,17 +28,20 @@ const notion = new Client({
   auth: process.env.NOTION_TOKEN,
 });
 
-// getCalendarInformation(notion, calendarDb);
-
 const handleCreateEvent = async () => {
-  rl.question("Name of event?", async (name) => {
-    await createNewCalendarEntry(notion, calendarDb, name);
-    rl.close();
-  });
+  //  TODO: promisify this
+  rl.question(
+    `${changeTextColor("Name of event ", TextColors.Magenta)}` +
+      `${changeTextColor("", TextColors.White)}`,
+    async (name) => {
+      await createNewCalendarEntry(notion, calendarDb, name);
+      rl.close();
+    }
+  );
 };
 
 const argv = yargs(hideBin(process.argv))
-  .command("event", "create a calendar event", (_) => {
+  .command("event", "create a calendar event", () => {
     handleCreateEvent();
   })
   .help().argv;

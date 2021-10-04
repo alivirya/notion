@@ -33,7 +33,7 @@ export const createNewCalendarEntry = async (
         ],
       },
       Date: {
-        date: { start: new Date().toISOString() },
+        date: { start: new Date().toISOString().substr(0, 10) },
       },
     },
   });
